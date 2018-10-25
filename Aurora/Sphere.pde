@@ -28,21 +28,21 @@ public class Sphere implements Shape {
 
   @Override
     public Intersection intersects(Ray ray) {
-    Intersection intersection = null);
-    
+    Intersection intersection = null;
+
     PVector L = position.cross(position, ray.origin);
     float tm = PVector.dot(L, ray.direction);
-    
-    if(tm >= 0){
-        intersection = new Intersection();
-        intersection.hit = true;
-        
-        double d = Math.sqrt(PVector.dot(L,L) - Math.pow(tm,2));
-        double deltaT = Math.sqrt(Math.pow(radius,2) - Math.pow(d,2));
-        double t0 = tm - deltaT;
-        //double t1 = tm + deltaT;
-        
-        intersection.distance = t0;
+
+    if (tm >= 0) {
+      intersection = new Intersection();
+      intersection.hit = true;
+
+      double d = Math.sqrt(PVector.dot(L, L) - Math.pow(tm, 2));
+      double deltaT = Math.sqrt(Math.pow(radius, 2) - Math.pow(d, 2));
+      double t0 = tm - deltaT;
+      //double t1 = tm + deltaT;
+
+      intersection.distance = (float)t0;
     }
 
     return intersection;
@@ -50,7 +50,30 @@ public class Sphere implements Shape {
 
   @Override
     public ShaderGlobals calculateShaderGlobals(Ray ray, Intersection intersection) {
-    return null;
+      
+      ShaderGlobals shaderGlobals = new ShaderGlobals();
+      
+      PVector P = PVector.add(ray.origin,PVector.mult(position, intersection.distance)); 
+      shaderGlobals.normal = PVector.div(PVector.sub(P, position) , PVector.dist(P,position)); 
+      
+      float teta = atan2(shaderGlobals.normal.x, shaderGlobals.normal.y);
+      float fi = acos(shaderGlobals.normal.y);
+      
+      float Tx = cos(teta);
+      float Ty = 0;
+      float Tz = -sin(teta);
+      
+      float Bx = sin(teta)*cos(fi);
+      float By = -sin(fi);
+      float Bz = cos(teta)*cos(fi);
+      
+      float u = (float)(teta/2*Math.PI);
+      float v = (float)(fi/Math.PI);
+      
+      shaderGlobals.uv = new PVector(u, v);
+      shaderGlobals.viewDirection = PVector.mult(ray.direction, -1);
+
+    return shaderGlobals;
   }
 
   @Override

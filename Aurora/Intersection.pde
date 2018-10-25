@@ -1,8 +1,9 @@
 public class Intersection{
     
     public boolean hit;
-    public double distance;
+    public float distance;
     public int index;
+    public Shape object;
     
     public Intersection(){
     }
