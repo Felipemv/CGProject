@@ -1,7 +1,7 @@
 public class Intersection{
     
     public boolean hit;
-    public float distance;
+    public double distance;
     public int index;
     
     public Intersection(){
