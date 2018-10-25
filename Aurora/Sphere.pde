@@ -62,10 +62,12 @@ public class Sphere implements Shape {
       float Tx = cos(teta);
       float Ty = 0;
       float Tz = -sin(teta);
+      shaderGlobals.tangentU = new PVector(Tx, Ty, Tz);
       
       float Bx = sin(teta)*cos(fi);
       float By = -sin(fi);
       float Bz = cos(teta)*cos(fi);
+      shaderGlobals.tangentV = new PVector(Bx, By, Bz);
       
       float u = (float)(teta/2*Math.PI);
       float v = (float)(fi/Math.PI);
