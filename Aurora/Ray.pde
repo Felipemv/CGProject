@@ -4,6 +4,8 @@ public class Ray{
     public PVector direction;
     
     public Ray(){
+      origin = null;
+      direction = null;
     }
     
     public Ray(PVector origin, PVector direction){

@@ -3,6 +3,7 @@ public class Scene{
     ArrayList<Shape> shapes;
     
     public Scene(){
+        shapes = null;
     }
     
     public Scene(ArrayList<Shape> shapes){
@@ -20,7 +21,7 @@ public class Scene{
             
             if(temp.hit && temp.distance < intersection.distance){
                 intersection = temp;
-                intersection.object = object;
+                intersection.index = shapes.indexOf(object);
             }
         }
       

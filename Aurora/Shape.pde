@@ -1,10 +1,19 @@
-public interface Shape extends Light{
+public abstract class Shape extends Light{
 
-    boolean explicitLight = false;
+    boolean explicitLight;
     
-    Intersection intersects(Ray ray);
+    public Shape(){
+        super();
+        explicitLight = false;
+    }
     
-    ShaderGlobals calculateShaderGlobals(Ray ray, Intersection intersection);
+    public Shape(boolean explicitLight){
+        this.explicitLight = explicitLight;
+    }
     
-    float surfaceArea();
+    abstract Intersection intersects(Ray ray);
+    
+    abstract ShaderGlobals calculateShaderGlobals(Ray ray, Intersection intersection);
+    
+    abstract float surfaceArea();
 }

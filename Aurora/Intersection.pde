@@ -3,9 +3,11 @@ public class Intersection{
     public boolean hit;
     public float distance;
     public int index;
-    public Shape object;
     
     public Intersection(){
+      hit = false;
+      distance = Float.MAX_VALUE;
+      index = -1;
     }
     
     public Intersection(boolean hit, float distance, int index){

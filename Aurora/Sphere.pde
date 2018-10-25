@@ -1,14 +1,19 @@
-public class Sphere implements Shape {
+public class Sphere extends Shape {
 
   public PVector position;
   public float radius;
 
   public Sphere() {
+    super();
+    position = null;
+    radius = -1;
   }
 
   public Sphere(PVector position, float radius, boolean explicitLight, PVector emissor) {
     this.position = position;
     this.radius = radius;
+    this.explicitLight = explicitLight;
+    this.emissor = emissor;
   }
 
   @Override
@@ -50,36 +55,36 @@ public class Sphere implements Shape {
 
   @Override
     public ShaderGlobals calculateShaderGlobals(Ray ray, Intersection intersection) {
-      
-      ShaderGlobals shaderGlobals = new ShaderGlobals();
-      
-      PVector P = PVector.add(ray.origin,PVector.mult(position, intersection.distance)); 
-      shaderGlobals.normal = PVector.div(PVector.sub(P, position) , PVector.dist(P,position)); 
-      
-      float teta = atan2(shaderGlobals.normal.x, shaderGlobals.normal.y);
-      float fi = acos(shaderGlobals.normal.y);
-      
-      float Tx = cos(teta);
-      float Ty = 0;
-      float Tz = -sin(teta);
-      shaderGlobals.tangentU = new PVector(Tx, Ty, Tz);
-      
-      float Bx = sin(teta)*cos(fi);
-      float By = -sin(fi);
-      float Bz = cos(teta)*cos(fi);
-      shaderGlobals.tangentV = new PVector(Bx, By, Bz);
-      
-      float u = (float)(teta/2*Math.PI);
-      float v = (float)(fi/Math.PI);
-      
-      shaderGlobals.uv = new PVector(u, v);
-      shaderGlobals.viewDirection = PVector.mult(ray.direction, -1);
+
+    ShaderGlobals shaderGlobals = new ShaderGlobals();
+
+    PVector P = PVector.add(ray.origin, PVector.mult(position, intersection.distance)); 
+    shaderGlobals.normal = PVector.div(PVector.sub(P, position), PVector.dist(P, position)); 
+
+    float teta = atan2(shaderGlobals.normal.x, shaderGlobals.normal.y);
+    float fi = acos(shaderGlobals.normal.y);
+
+    float Tx = cos(teta);
+    float Ty = 0;
+    float Tz = -sin(teta);
+    shaderGlobals.tangentU = new PVector(Tx, Ty, Tz);
+
+    float Bx = sin(teta)*cos(fi);
+    float By = -sin(fi);
+    float Bz = cos(teta)*cos(fi);
+    shaderGlobals.tangentV = new PVector(Bx, By, Bz);
+
+    float u = (float)(((teta/2*Math.PI) / Math.PI) + 1)/2;
+    float v = (float)(((fi/Math.PI) /Math.PI) + 1)/2;
+
+    shaderGlobals.uv = new PVector(u, v);
+    shaderGlobals.viewDirection = PVector.mult(ray.direction, -1);
 
     return shaderGlobals;
   }
 
   @Override
     public float surfaceArea() {
-    return -1;
+      return (float) (4 * Math.PI * Math.pow(radius, 2));
   }
 }

@@ -1,8 +1,8 @@
-public interface BSDF{
+public abstract class BSDF{
 
-    PVector evaluate(ShaderGlobals shaderGlobals);
+    abstract PVector evaluate(ShaderGlobals shaderGlobals);
     
-    float pdf(ShaderGlobals shaderGlobals);
+    abstract float pdf(ShaderGlobals shaderGlobals);
     
-    PVector sample(ShaderGlobals shaderGlobals, PVector sample);
+    abstract PVector sample(ShaderGlobals shaderGlobals, PVector sample);
 }

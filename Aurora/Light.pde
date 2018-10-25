@@ -1,10 +1,18 @@
-public interface Light{
+public abstract class Light{
 
-    public PVector emissor = null;
+    public PVector emissor;
     
-    PVector evaluate(ShaderGlobals shaderGlobals);
+    public Light(){
+        emissor = null;
+    }
     
-    float pdf(ShaderGlobals shaderGlobals);
+    public Light(PVector emissor){
+        this.emissor = emissor;
+    }
     
-    PVector sample(ShaderGlobals shaderGlobals, PVector sample);
+    abstract PVector evaluate(ShaderGlobals shaderGlobals);
+    
+    abstract float pdf(ShaderGlobals shaderGlobals);
+    
+    abstract PVector sample(ShaderGlobals shaderGlobals, PVector sample);
 }

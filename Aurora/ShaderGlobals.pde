@@ -11,5 +11,14 @@ public class ShaderGlobals{
     public PVector lightNormal;
     
     public ShaderGlobals(){
+        point = null;
+        normal = null;
+        uv = null;
+        tangentU = null;
+        tangentV = null;
+        viewDirection = null;  
+        lightDirection = null;
+        lightPoint = null;
+        lightNormal = null;
     }
 }
