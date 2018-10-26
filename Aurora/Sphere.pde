@@ -87,4 +87,8 @@ public class Sphere extends Shape {
     public float surfaceArea() {
       return (float) (4 * Math.PI * Math.pow(radius, 2));
   }
+  
+  @Override
+    public void transform(PMatrix3D transformation){
+    }
 }
