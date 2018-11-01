@@ -1,10 +1,11 @@
-public abstract class BSDF{
-  
-    public BSDF(){}
+public abstract class BSDF {
 
-    abstract PVector evaluate(ShaderGlobals shaderGlobals);
-    
-    abstract float pdf(ShaderGlobals shaderGlobals);
-    
-    abstract PVector sample(ShaderGlobals shaderGlobals, PVector sample);
+  public BSDF() {
+  }
+
+  abstract PVector evaluate(ShaderGlobals shaderGlobals);
+
+  abstract float pdf(ShaderGlobals shaderGlobals);
+
+  abstract PVector sample(ShaderGlobals shaderGlobals, PVector sample);
 }

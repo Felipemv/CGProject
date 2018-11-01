@@ -17,22 +17,22 @@ float vy0 = 2;
 
 float y = 0;
 
-void setup(){
-  size(800,600);
-  
-  pic.set(250, 250, color(255,0,0));
+void setup() {
+  size(800, 600);
+
+  pic.set(250, 250, color(255, 0, 0));
 }
 
 // Loop
-void draw(){
+void draw() {
   image(pic, 0, 0);
   //background(51);
-  
+
   float x = x0 + vx0 * t;
   float y = y0 + vy0 + 0.5 * g * t * t;
-  
+
   ellipse(x, y, diameter, diameter);
   delay(20);
-  
+
   t += step;
 }
