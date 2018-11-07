@@ -30,6 +30,16 @@ public class Camera {
   }
 
   public Ray generateRay(float x, float y, PVector sample) {
+    float Xndc = (x + 0.5) / film.width;
+    float Yndc = (y + 0.5) / film.height;
+    
+    float Xscreen = 2 * Xndc - 1;
+    float Yscreen = 1 - 2 * Yndc;
+    
+    float a = film.aspectRatio();    
+    
+    float d = tan(a / 2);
+
     float xc = film.aspectRatio() * (fieldOfView/2) * x;
     float yc = (fieldOfView/2) * y;
 
