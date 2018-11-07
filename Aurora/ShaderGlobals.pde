@@ -22,7 +22,7 @@ public class ShaderGlobals {
     lightNormal = null;
   }
 
-  public ShaderGlobals(PVector point, PVector normal, PVector uv, PVector tangentU, PVector tangentV, 
+  public ShaderGlobals(PVector point, PVect'or normal, PVector uv, PVector tangentU, PVector tangentV, 
     PVector viewDirection, PVector lightDirection, PVector lightPoint, PVector lightNormal) {
     this.point = point;
     this.normal = normal;
