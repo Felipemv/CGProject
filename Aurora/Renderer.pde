@@ -31,10 +31,10 @@ public class Renderer {
   }
 
   public PImage render() {
-    PImage image = createImage(width, height, RGB);
-    
-    for (int i = 0; i < width - 1; i++) {
-      for (int j = 0; j < height - 1; i++) {
+    PImage image = createImage(options.width, options.height, RGB);
+
+    for (int i = 0; i < options.width - 1; i++) {
+      for (int j = 0; j < options.height - 1; i++) {
         PVector[] samples = stratifiedSample(options.cameraSamples);
 
         PVector colorP = new PVector(0, 0, 0);
@@ -51,17 +51,16 @@ public class Renderer {
 
           totalWeight += weight;
         }
-        
+
         colorP = PVector.div(colorP, totalWeight); 
-       
-        image.set(saturate(exposure(gamma(colorP,options.gammaValue));
+        colorP = saturate(gamma(exposure(colorP, options.exposure), options.gamma));
+
+        image.set(i, j, color(colorP.x, colorP.y, colorP.z));
       }
     }
 
 
-    return null;
+    return image;
   }
-  
 
-  
 }
