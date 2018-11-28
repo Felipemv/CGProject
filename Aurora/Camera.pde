@@ -16,10 +16,11 @@ public class Camera {
 
   public void lookAt(PVector position, PVector target, PVector up) {
     PVector W = PVector.sub(position, target).normalize();
-    PVector U = W.cross(up, W).normalize();
-    PVector V = W.cross(W, U);
+    PVector U = up.cross(W).normalize();
+    PVector V = W.cross(U);
 
-    worldMatrix = new PMatrix3D(U.x, V.x, W.x, position.x, 
+    worldMatrix = new PMatrix3D(
+      U.x, V.x, W.x, position.x, 
       U.y, V.y, W.y, position.y, 
       U.z, V.z, W.z, position.z, 
       0, 0, 0, 1);
@@ -30,7 +31,7 @@ public class Camera {
   }
 
   public Ray generateRay(float x, float y, PVector sample) {
-    float Xndc = (x + 0.5) / film.width;
+    /*float Xndc = (x + 0.5) / film.width;
     float Yndc = (y + 0.5) / film.height;
     
     float Xscreen = 2 * Xndc - 1;
@@ -38,7 +39,7 @@ public class Camera {
     
     float a = film.aspectRatio();    
     
-    float d = tan(a / 2);
+    float d = tan(fieldOfView / 2);
 
     float xc = film.aspectRatio() * (fieldOfView/2) * x;
     float yc = (fieldOfView/2) * y;
@@ -49,6 +50,21 @@ public class Camera {
 
     PVector D = PVector.sub(PL, sample).normalize();
 
-    return new Ray(P, D);
+    return new Ray(P, D);*/
+    
+    float scale = tan(fieldOfView * 0.5);
+        
+        PVector pixel = new PVector();
+        
+        pixel.x = (2.0 * (x + 0.5 + sample.x) / film.width - 1.0) * scale * film.aspectRatio();
+        pixel.y = (1.0 - 2.0 * (y + 0.5 + sample.y) / film.height) * scale;
+        pixel.z = -1.0;
+        
+        worldMatrix.mult(pixel, pixel);
+        
+        PVector origin = new PVector(worldMatrix.m03, worldMatrix.m13, worldMatrix.m23);
+        PVector direction = PVector.sub(pixel, origin).normalize();
+        
+        return new Ray(origin, direction);
   }
 }

@@ -16,12 +16,13 @@ public class Scene {
     intersection.hit = false;
     intersection.distance = Float.MAX_VALUE;
 
-    for (Shape object : shapes) {
-      Intersection temp = object.intersects(ray);
+    for (int i = 0; i < shapes.size(); i++) {
+      Shape shape = shapes.get(i);
+      Intersection temp = shape.intersects(ray);
 
       if (temp.hit && temp.distance < intersection.distance) {
         intersection = temp;
-        intersection.index = shapes.indexOf(object);
+        intersection.index = i;
       }
     }
 

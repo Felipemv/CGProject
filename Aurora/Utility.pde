@@ -1,44 +1,46 @@
-public PVector[] stratifiedSample(int cameraSamples) {
-  int size =  (int) sqrt(cameraSamples);
-  PVector points[] = new PVector[cameraSamples];
-
-  for (int i = 0; i < size-1; i++) {
-    for (int j = 0; j < size-1; j++) {
-      PVector offset = new PVector(i, j);
-
-      points[i * size + j] = PVector.div((PVector.add(offset, PVector.random2D())), size);
-    }
-  }    
-  return points;
-}
-
-public float gaussian2D(PVector sample, float filterWidth) {
-  float r = filterWidth / 2;
-
-  return max((int) (Math.exp(- Math.pow(sample.x, 2)) - Math.exp(- r*r)), 0) * 
-    max((int) (Math.exp(- Math.pow(sample.y, 2)) - Math.exp(- r*r)), 0);
-}
-
-public PVector gamma(PVector colorP, float value) {
-  float inverseGama = 1 / value;
-
-  return new PVector((float) Math.pow(colorP.x, inverseGama), 
-    (float) Math.pow(colorP.y, inverseGama), 
-    (float) Math.pow(colorP.z, inverseGama));
-}
-
-public PVector exposure(PVector colorP, float value) {
-  float power = (float) Math.pow(2, value);
-
-  return new PVector(colorP.x * power, 
-    colorP.y * power, 
-    colorP.z * power);
-}
-
-public PVector saturate(PVector colorP) {
-  return new PVector(
-    (colorP.x > 1) ? 1 : (colorP.x < 0) ? 0 : colorP.x, 
-    (colorP.y > 1) ? 1 : (colorP.y < 0) ? 0 : colorP.y, 
-    (colorP.z > 1) ? 1 : (colorP.z < 0) ? 0 : colorP.z
-    );
-}
+  public final float INVERSE_PI = 0.31830988618379067154;
+    
+  float uniformRandom1D() {
+      return random(1.0);
+  }
+  PVector uniformRandom2D() {
+      return new PVector(uniformRandom1D(), uniformRandom1D());
+  }
+  ArrayList<PVector> stratifiedSample(int samples) {
+      ArrayList<PVector> points = new ArrayList(samples);
+      
+      int size = (int)sqrt(samples);
+      
+      for (int i = 0; i < samples; i++) {
+          PVector offset = new PVector(i / size, i % size);
+          PVector point = PVector.add(uniformRandom2D(), offset).div(size);
+          
+          points.add(point);
+      }
+      
+      return points;
+  }
+  
+  float gaussian1D(float sample, float width) {
+      float radius = width * 0.5;
+      return max(0, exp(-sample * sample) - exp(-radius * radius));
+  }
+  float gaussian2D(PVector sample, float width) {
+      return gaussian1D(sample.x, width) * gaussian1D(sample.y, width);
+  }
+  
+  PVector saturate(PVector colour) {
+      return new PVector(constrain(colour.x, 0, 1.0), constrain(colour.y, 0, 1.0), constrain(colour.z, 0, 1.0));
+  }
+  PVector gamma(PVector colour, float value) {
+      float t = 1.0 / value;
+      return new PVector(pow(colour.x, t), pow(colour.y, t), pow(colour.z, t));
+  }
+  PVector exposure(PVector colour, float value) {
+      float t = pow(2.0, value);
+      return new PVector(colour.x * t, colour.y * t, colour.z * t);
+  }
+  
+  PVector multiplyColor(PVector a, PVector b){
+     return new PVector (a.x * b.x, a.y * b.y, a.z * b.z);
+  }
